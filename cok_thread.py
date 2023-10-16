@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 import time
 import sys
 import asyncio
@@ -84,12 +87,13 @@ class Serveur(threading.Thread):
         servir_commande = False
         
     def run(self):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        #loop = asyncio.new_event_loop()
+        #asyncio.set_event_loop(loop)
         async def main():
-            await self.prendre_commande()
-            await self.servir()
-        loop.run_until_complete(main())
+            prepare_commande_task = asyncio.create_task(self.prendre_commande())
+            servir_task = asyncio.create_task(self.servir())
+            await asyncio.gather(prepare_commande_task,servir_task)
+        asyncio.run(main())
         
     # def run(self):
     #     async def main():
@@ -134,13 +138,13 @@ class Barman(threading.Thread):
         
         
     def run(self):
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
+        #loop = asyncio.new_event_loop()
+        #asyncio.set_event_loop(loop)
         async def main():
             preparer_task = asyncio.create_task(self.preparer())
             encaisser_task = asyncio.create_task(self.encaisser())
             await asyncio.gather(preparer_task,encaisser_task)
-        loop.run_until_complete(main())
+        asyncio.run(main())
     
     
 
