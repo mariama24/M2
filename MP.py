@@ -47,7 +47,7 @@ class MyProcess(multiprocessing.Process):
 
         with open(f"log_fichiers_{self.total_processors}_procs.log", 'a') as le:
             le.write(f"nom_fichier: {nom_jobs},\tTemps d'exécution : {end_time - start_time}\n")
-            le.write(f"Processeur : {multiprocessing.current_process().name.split('-')[1]}/{self.total_processors}\n")
+            le.write(f"Processeur : {multiprocessing.current_process().name.split('-')[1]}\n")
             if 'ex' in locals():
                 le.write("Statut : Exception\n")
                 le.write(f"Exception : {str(e)}\n")
